@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Home | E-Shop</title>
+    <title>loja</title>
 
 
     <link href="{{ url(elixir('css/all.css')) }}" rel="stylesheet">
@@ -42,19 +42,36 @@
     <div class="header-middle"><!--header-middle-->
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <div class="logo pull-left">
-                        <a href="/"><span>CodeCommerce</span></a>
+                        <a href="{{route('home')}}"><span>CodeCommerce</span></a>
                     </div>
 
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-user"></i> Minha conta</a></li>
-                            <li><a href="http://commerce.dev:10088/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                            <li><a href="http://commerce.dev:10088/cart"><i class="fa fa-shopping-cart"></i> Carrinho</a></li>
-                            <li><a href="http://commerce.dev:10088/auth/login"><i class="fa fa-lock"></i> Login</a></li>
+                            <li><a href="#"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                            <li><a href="{{route('cart')}}"><i class="fa fa-shopping-cart"></i> Carrinho</a></li>
+                            <li><a href="{{route('account.orders')}}"><i class="fa fa-check-circle"></i> Minha conta</a></li>
+                            <ul class="nav navbar-nav navbar-right">
+                                @if(auth()->guest())
+                                    @if(!Request::is('auth/login'))
+                                        <li><a href="{{ url('/auth/login') }}"><i class="fa fa-user"></i> Login</a></li>
+                                    @endif
+                                    @if(!Request::is('auth/register'))
+                                        <li><a href="{{ url('/auth/register') }}">Register</a></li>
+                                    @endif
+                                @else
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-expanded="false">{{ auth()->user()->name }} <span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+                                        </ul>
+                                    </li>
+                                @endif
+                            </ul>
                         </ul>
                     </div>
                 </div>
@@ -76,7 +93,9 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="/" class="active">Home</a></li>
+                            <li><a href="{{ url('/') }}">Home</a></li>
+                            <li><a href="{{route('categories.index')}}">Categorias</a></li>
+                            <li><a href="{{route('products.index')}}">Produtos</a></li>
                             <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html">Products</a></li>
@@ -86,8 +105,6 @@
                                     <li><a href="login.html">Login</a></li>
                                 </ul>
                             </li>
-
-                            <li><a href="contact-us.html">Contact</a></li>
                         </ul>
                     </div>
                 </div>
